@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css" />
+    <a href="first.html" class="homepage"></a>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insurance Options</title>
+    
+</head>
+<body>
+    <div class="container">
+        <div class="grid">
+            <div class="card">
+                <div class="image-container">
+                    <a href="peace.html" target ="_blank">
+                    <img src="./images_axis/peace.svg" alt="Peace out Payout">
+                </a>
+                </div>
+                <h2>Peace out Payout</h2>
+            </div>
+            <div class="card">
+                <div class="image-container">
+                    <a href="" target ="_blank">
+                    <img src="./images_axis/forever.svg" alt="Forever Plan">
+                </a>
+                </div>
+                <h2>Forever Plan</h2>
+            </div>
+            <div class="card">
+                
+                <div class="image-container">
+                    <a href="" target ="_blank">
+                    <img src="./images_axis/wedding.svg" alt="Wedding Budget Builder">
+                </a>
+                </div>
+                <h2>Wedding Budget Builder</h2>
+            </div>
+            <div class="card">
+                <div class="image-container">
+                    <a href="" target ="_blank">
+                    <img src="./images_axis/baby.svg" alt="NextGen Vault">
+                </a>
+                </div>
+                <h2>NextGen Vault</h2>
+            </div>
+            <div class="card">
+                <div class="image-container">
+                        <a href="" target ="_blank">
+                    <img src="./images_axis/future.svg" alt="Future me Fund">
+                </a>
+                </div>
+                <h2>Future me Fund</h2>
+            </div>
+            <div class="card">
+                <div class="image-container">
+                        <a href="" target ="_blank">
+                    <img src="./images_axis/hiest.svg" alt="Flex Fund">
+                </a>
+                </div>
+                <h2>Flex Fund</h2>
+            </div>
+            <div class="card">
+                <div class="image-container">
+                    <a href="" target ="_blank">
+                    <img src="./images_axis/savage.svg" alt="Half Safe, Half Savage">
+                    </a>
+                </div>
+                <h2>Half Safe, Half Savage</h2>
+            </div>
+            <div class="card">
+                <div class="image-container">
+                    <a href="" target ="_blank">
+                    <img src="./images_axis/retirement.svg" alt="Retire and  Binge">
+                </a>
+                </div>
+                <h2>Retire and Binge</h2>
+            </div>
+        </div>
+        
+        <div class="quiz-section">
+            <h3>Still confused? Take A Quiz to know which insurance matches your "freak"</h3>
+            <button class="quiz-button" id="quizButton">Take the Quiz</button>
+        </div>
+    </div>
+    
+    <div class="modal" id="quizModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Find Your Insurance Match</h2>
+            </div>
+            
+            <div class="question" id="questionContainer">
+                <h3 id="questionText">What's your financial priority right now?</h3>
+                <div class="options" id="optionsContainer">
+                    <!-- Options will be inserted here by JavaScript -->
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button class="next-button" id="nextButton" disabled>Next</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Quiz data
+        const questions = [
+            {
+                question: "What's your financial priority right now?",
+                options: [
+                    "Saving for retirement",
+                    "Protecting my family",
+                    "Investment Opportunities",
+                    "Planning a special event"
+                ]
+            },
+            {
+                question: "How would you describe your risk tolerance?",
+                options: [
+                    "Very conservative",
+                    "Somewhat conservative",
+                    "Moderate",
+                    "Aggressive"
+                ]
+            },
+            {
+                question: "What life stage are you in?",
+                options: [
+                    "Just starting out",
+                    "Building a family",
+                    "Mid-career",
+                    "Near retirement"
+                ]
+            }
+        ];
+        
+        // Insurance options
+        const insuranceOptions = [
+            "Peace out Payout",
+            "Forever Plan",
+            "Wedding Budget Builder",
+            "NextGen Vault",
+            "Future me Fund",
+            "Flex Fund",
+            "Half Safe, Half Savage",
+            "Retire and Binge"
+        ];
+        
+        // Quiz state
+        let currentQuestion = 0;
+        let answers = [];
+        
+        // DOM elements
+        const quizButton = document.getElementById('quizButton');
+        const quizModal = document.getElementById('quizModal');
+        const questionText = document.getElementById('questionText');
+        const optionsContainer = document.getElementById('optionsContainer');
+        const nextButton = document.getElementById('nextButton');
+        
+        // Event listeners
+        quizButton.addEventListener('click', openQuiz);
+        nextButton.addEventListener('click', handleNext);
+        
+        // Initialize quiz
+        function openQuiz() {
+            quizModal.style.display = 'flex';
+            currentQuestion = 0;
+            answers = [];
+            showQuestion(currentQuestion);
+        }
+        
+        // Show current question
+        function showQuestion(index) {
+            const question = questions[index];
+            questionText.textContent = question.question;
+            
+            // Clear previous options
+            optionsContainer.innerHTML = '';
+            
+            // Add new options
+            question.options.forEach((option, i) => {
+                const optionDiv = document.createElement('div');
+                optionDiv.className = 'option';
+                
+                const radio = document.createElement('input');
+                radio.type = 'radio';
+                radio.name = 'quizOption';
+                radio.id = `option-${i}`;
+                radio.value = option;
+                
+                const label = document.createElement('label');
+                label.htmlFor = `option-${i}`;
+                label.textContent = option;
+                
+                radio.addEventListener('change', () => {
+                    answers[currentQuestion] = option;
+                    nextButton.disabled = false;
+                });
+                
+                optionDiv.appendChild(radio);
+                optionDiv.appendChild(label);
+                optionsContainer.appendChild(optionDiv);
+            });
+            
+            // Update button text
+            if (index === questions.length - 1) {
+                nextButton.textContent = 'See Results';
+            } else {
+                nextButton.textContent = 'Next';
+            }
+            
+            nextButton.disabled = !answers[currentQuestion];
+        }
+        
+        // Handle next button click
+        function handleNext() {
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                showQuestion(currentQuestion);
+            } else {
+                showResult();
+            }
+        }
+        
+        // Show quiz result
+        function showResult() {
+            // Simple algorithm to determine which insurance matches
+            // In a real app, this would be more sophisticated
+            
+            // Just for demo purposes - pick a result based on answers
+            const resultIndex = Math.floor(Math.random() * insuranceOptions.length);
+            alert(`Based on your answers, we recommend: ${insuranceOptions[resultIndex]}`);
+            
+            // Close modal and reset
+            quizModal.style.display = 'none';
+            currentQuestion = 0;
+            answers = [];
+        }
+        
+        // Close modal when clicking outside
+        window.addEventListener('click', (event) => {
+            if (event.target === quizModal) {
+                quizModal.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
